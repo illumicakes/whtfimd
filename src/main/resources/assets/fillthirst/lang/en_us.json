@@ -1,0 +1,10 @@
+{
+  "itemGroup.fillthirst": "Thirst Compatibility",
+  "fillthirst.configuration.title": "FillInTheThirst Configs",
+  "fillthirst.configuration.section.fillthirst.common.toml": "Thirst Compatibility",
+  "fillthirst.configuration.section.fillthirst.common.toml.title": "Thirst Compatibility",
+  "fillthirst.configuration.items": "Custom Drink List",
+  "fillthirst.configuration.logDirtBlock": "Log Dirt Block",
+  "fillthirst.configuration.magicNumberIntroduction": "Magic Number Text",
+  "fillthirst.configuration.magicNumber": "Magic Number"
+}

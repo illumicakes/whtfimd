@@ -1,0 +1,8 @@
+.idea/
+.gradle
+build/
+run/
+runs/
+.DS_Store
+secrets.properties
+temp
