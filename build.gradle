@@ -9,8 +9,8 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = mod_version
-group = mod_group_id
+version = project.mod_version
+group = project.mod_group_id
 
 repositories {
     maven {
@@ -67,7 +67,7 @@ runs {
     }
 
     data {
-        programArguments.addAll '--mod', project.mod_id, '--all',
+        arguments.addAll '--mod', project.mod_id, '--all',
                 '--output', file('src/generated/resources/').getAbsolutePath(),
                 '--existing', file('src/main/resources/').getAbsolutePath()
     }
@@ -105,7 +105,7 @@ publishing {
 
     repositories {
         maven {
-            url = uri("file://${project.projectDir}/repo")
+            url = layout.projectDirectory.dir("repo")
         }
     }
 }

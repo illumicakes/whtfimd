@@ -8,36 +8,57 @@ version="${mod_version}"
 displayName="${mod_name}"
 description='''Adds thirst compatibility for drinks.'''
 
-[[dependencies.${mod_id}]]
+[[dependencies.fillthirst]]
 modId="neoforge"
 type="required"
 versionRange="[21.1.219,)"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.fillthirst]]
 modId="minecraft"
 type="required"
 versionRange="[1.21.1]"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.fillthirst]]
 modId="thirst"
 type="optional"
 versionRange="[1.21.1,)"
 ordering="AFTER"
 side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.fillthirst]]
 modId="legendarysurvivaloverhaul"
 type="optional"
 versionRange="[1.21.1,)"
 ordering="AFTER"
 side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.fillthirst]]
 modId="youkaishomecoming"
+type="optional"
+versionRange="[1.21.1,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.fillthirst]]
+modId="kaleidoscope_tavern"
+type="optional"
+versionRange="[1.21.1,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.fillthirst]]
+modId="kaleidoscope_cookery"
+type="optional"
+versionRange="[1.21.1,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.fillthirst]]
+modId="kaleidoscope_dim_wine"
 type="optional"
 versionRange="[1.21.1,)"
 ordering="AFTER"
