@@ -1,6 +1,7 @@
 .idea/
 .gradle
 build/
+bin/
 run/
 runs/
 .DS_Store

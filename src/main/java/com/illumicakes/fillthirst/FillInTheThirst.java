@@ -4,10 +4,7 @@ import com.mojang.logging.LogUtils;
 import dev.ghen.thirst.foundation.common.event.RegisterThirstValueEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -15,7 +12,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import org.slf4j.Logger;
 
 @Mod(FillInTheThirst.MODID)
@@ -44,59 +40,31 @@ public class FillInTheThirst {
                 continue;
             }
 
-            Item item = BuiltInRegistries.ITEM.get(id);
+            if (isOptionalNamespaceMissing(id)) {
+                continue;
+            }
 
-            if (item == null) {
+            if (!BuiltInRegistries.ITEM.containsKey(id)) {
                 LOGGER.warn("Drink item not found: {}", entry.getKey());
                 continue;
             }
 
+            Item item = BuiltInRegistries.ITEM.get(id);
+
             Config.DrinkValue drink = entry.getValue();
-            event.addDrink(item, drink.hydration(), Math.round(drink.quenching()));
+
+            if (drink.type() == Config.ThirstType.FOOD) {
+                event.addFood(item, drink.hydration(), Math.round(drink.quenching()));
+            } else {
+                event.addDrink(item, drink.hydration(), Math.round(drink.quenching()));
+            }
         }
 
-        LOGGER.info("Registered {} drinks with Thirst Was Taken", Config.DRINKS.size());
+        LOGGER.info("Registered {} thirst entries with Thirst Was Taken", Config.DRINKS.size());
     }
 
-    @SubscribeEvent
-    public void onItemFinishedUse(LivingEntityUseItemEvent.Finish event) {
-        if (ModList.get().isLoaded("thirst")) {
-            return;
-        }
-
-        LivingEntity entity = event.getEntity();
-
-        if (!(entity instanceof Player player)) {
-            return;
-        }
-
-        ItemStack stack = event.getItem();
-        Item item = stack.getItem();
-        String itemId = BuiltInRegistries.ITEM.getKey(item).toString();
-
-        Config.DrinkValue drink = Config.DRINKS.get(itemId);
-
-        if (drink == null) {
-            return;
-        }
-
-        giveLegendarySurvivalOverhaulThirst(player, drink);
-        LOGGER.debug("{} gave {}/{} thirst", itemId, drink.hydration(), drink.quenching());
-    }
-
-    private void giveLegendarySurvivalOverhaulThirst(Player player, Config.DrinkValue drink) {
-        if (!ModList.get().isLoaded("legendarysurvivaloverhaul")) {
-            return;
-        }
-
-        try {
-            Class<?> thirstUtil = Class.forName("sfiomn.legendarysurvivaloverhaul.api.thirst.ThirstUtil");
-
-            thirstUtil
-                    .getMethod("takeDrink", Player.class, int.class, float.class)
-                    .invoke(null, player, drink.hydration(), drink.quenching());
-        } catch (Exception e) {
-            LOGGER.warn("Failed to apply Legendary Survival Overhaul thirst.", e);
-        }
+    private boolean isOptionalNamespaceMissing(ResourceLocation id) {
+        String namespace = id.getNamespace();
+        return !"minecraft".equals(namespace) && !ModList.get().isLoaded(namespace);
     }
 }
